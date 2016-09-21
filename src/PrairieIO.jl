@@ -3,7 +3,13 @@ using LightXML
 using Images
 using FileIO
 using FixedPointNumbers
-# package code goes here
+using Compat
+
+
+import Compat: UTF8String,String,ASCIIString
+
+
+
 include("importPrairie.jl")
 
 export
