@@ -41,7 +41,7 @@ end
         systemConfigItem = find_element(xmlPrairieDoc,"SystemConfiguration")
         laserItem =  find_element(systemConfigItem,"Lasers")
         laserItems = get_elements_by_tagname(laserItem,"Laser")
-        rigConfig = ["laser.$i" => attributes_dict(laserItems[i]) for i=1:length(laserItems)]
+        rigConfig = Dict("laser.$i" => attributes_dict(laserItems[i]) for i=1:length(laserItems))
     end
         
     ### Global PVStateShard configuration of the experiment
