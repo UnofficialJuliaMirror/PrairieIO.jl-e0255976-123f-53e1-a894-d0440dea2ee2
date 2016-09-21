@@ -79,7 +79,7 @@ function pvParameters2dict(prairieConfNode)
     else
     keyElement = get_elements_by_tagname(prairieConfNode,"Key")
     ### false is written False in the xml file (hence the lowercase), everything else is numeric except the magnification that has an "x" written next to it (so we remove it to get the objective mag as a number).
-    params = [attribute(keyElement[i],"key") => parse(replace(lowercase(attribute(keyElement[i],"value")),"x","")) for i=1:length(keyElement)]
+    params = Dict(attribute(keyElement[i],"key") => parse(replace(lowercase(attribute(keyElement[i],"value")),"x","")) for i=1:length(keyElement))
     return params
     end    
 end
