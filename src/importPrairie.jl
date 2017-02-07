@@ -107,11 +107,12 @@ function getPrairieFrames(prairieImport;seqN=1,channel=2,frameN="All")
     im = reinterpret(Normed{UInt16,16},cat(3,im...))
     
     protocolType = prairieImport["sequences"][seqN]["attributes"]["type"]
-    
-    im["timedim"] = 3
-    im["spatialorder"]=["x","y"]
-    im["pixelspacing"] = [seqParams["micronsPerPixel_XAxis"],seqParams["micronsPerPixel_YAxis"],seqParams["framePeriod"]*seqParams["rastersPerFrame"]]
-    im["period"]=seqParams["framePeriod"]*seqParams["rastersPerFrame"]
+
+    im = AxisArray(im,(:x,:y,:time),(seqParams["micronsPerPixel_XAxis"],seqParams["micronsPerPixel_YAxis"],seqParams["framePeriod"]*seqParams["rastersPerFrame"]))
+    #im["timedim"] = 3
+    #im["spatialorder"]=["x","y"]
+    #im["pixelspacing"] = [seqParams["micronsPerPixel_XAxis"],seqParams["micronsPerPixel_YAxis"],seqParams["framePeriod"]*seqParams["rastersPerFrame"]]
+    #im["period"]=seqParams["framePeriod"]*seqParams["rastersPerFrame"]
     im
 end
 
