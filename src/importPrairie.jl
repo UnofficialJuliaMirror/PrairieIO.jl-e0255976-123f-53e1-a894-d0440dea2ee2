@@ -104,7 +104,7 @@ function getPrairieFrames(prairieImport;seqN=1,channel=2,frameN="All")
     height = seqParams["linesPerFrame"]
     
     im = pmap(load,filenames)
-    im = reinterpret(UFixed{UInt16,16},cat(3,im...))
+    im = reinterpret(Normed{UInt16,16},cat(3,im...))
     
     protocolType = prairieImport["sequences"][seqN]["attributes"]["type"]
     
