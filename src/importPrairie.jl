@@ -113,11 +113,6 @@ function getPrairieFrames(prairieImport;seqN=1,channel=2,frameN="All")
     yStep = seqParams["micronsPerPixel_YAxis"]um
     timeStep = seqParams["framePeriod"]*seqParams["rastersPerFrame"]s
 
-    println(size(im))
-    println(length(xStep:xStep:(xStep*size(im,1))))
-    println(length(yStep:yStep:(yStep*size(im,2))))
-    println(length(0s:timeStep:(timeStep*(size(im,3)-1))))
-    
     im = AxisArray(im,Axis{:x}(xStep*(1/2:size(im,1))),Axis{:y}(yStep*(1/2:size(im,2))),Axis{:time}(timeStep*(0:(size(im,3)-1))))
     #im["timedim"] = 3
     #im["spatialorder"]=["x","y"]
