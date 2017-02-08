@@ -1,4 +1,5 @@
-
+const um = u"μm"
+const s = u"s"
 
 ### TODO : zseries linescans-pointscans support. Voltage stim and recording import.
 
@@ -106,9 +107,18 @@ function getPrairieFrames(prairieImport;seqN=1,channel=2,frameN="All")
     im = pmap(load,filenames)
     im = reinterpret(Normed{UInt16,16},cat(3,im...))
     
-    protocolType = prairieImport["sequences"][seqN]["attributes"]["type"]
+    #protocolType = prairieImport["sequences"][seqN]["attributes"]["type"]
 
-    im = AxisArray(im,(:x,:y,:time),(seqParams["micronsPerPixel_XAxis"],seqParams["micronsPerPixel_YAxis"],seqParams["framePeriod"]*seqParams["rastersPerFrame"]))
+    xStep = seqParams["micronsPerPixel_XAxis"]um
+    yStep = seqParams["micronsPerPixel_YAxis"]um
+    timeStep = seqParams["framePeriod"]*seqParams["rastersPerFrame"]s
+
+    println(size(im))
+    println(length(xStep:xStep:(xStep*size(im,1))))
+    println(length(yStep:yStep:(yStep*size(im,2))))
+    println(length(0s:timeStep:(timeStep*(size(im,3)-1))))
+    
+    im = AxisArray(im,Axis{:x}(xStep*(1/2:size(im,1))),Axis{:y}(yStep*(1/2:size(im,2))),Axis{:time}(timeStep*(0:(size(im,3)-1))))
     #im["timedim"] = 3
     #im["spatialorder"]=["x","y"]
     #im["pixelspacing"] = [seqParams["micronsPerPixel_XAxis"],seqParams["micronsPerPixel_YAxis"],seqParams["framePeriod"]*seqParams["rastersPerFrame"]]
