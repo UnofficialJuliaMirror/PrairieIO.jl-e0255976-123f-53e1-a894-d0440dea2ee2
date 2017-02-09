@@ -1,6 +1,3 @@
-const um = u"μm"
-const s = u"s"
-
 ### TODO : zseries linescans-pointscans support. Voltage stim and recording import.
 
 ### Reads a Prairie xml file and extracts the useful metadata.
@@ -106,12 +103,11 @@ function getPrairieFrames(prairieImport;seqN=1,channel=2,frameN="All")
     
     im = pmap(load,filenames)
     im = reinterpret(Normed{UInt16,16},cat(3,im...))
-    
     #protocolType = prairieImport["sequences"][seqN]["attributes"]["type"]
 
-    xStep = seqParams["micronsPerPixel_XAxis"]um
-    yStep = seqParams["micronsPerPixel_YAxis"]um
-    timeStep = seqParams["framePeriod"]*seqParams["rastersPerFrame"]s
+    xStep = seqParams["micronsPerPixel_XAxis"]
+    yStep = seqParams["micronsPerPixel_YAxis"]
+    timeStep = seqParams["framePeriod"]*seqParams["rastersPerFrame"]
 
     im = AxisArray(im,Axis{:x}(xStep*(1/2:size(im,1))),Axis{:y}(yStep*(1/2:size(im,2))),Axis{:time}(timeStep*(0:(size(im,3)-1))))
     #im["timedim"] = 3
