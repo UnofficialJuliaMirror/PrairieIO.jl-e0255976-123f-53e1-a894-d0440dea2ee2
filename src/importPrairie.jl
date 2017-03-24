@@ -102,7 +102,8 @@ function getPrairieFrames(prairieImport;seqN=1,channel=2,frameN="All")
     height = seqParams["linesPerFrame"]
     
     im = pmap(load,filenames)
-    im = reinterpret(Normed{UInt16,16},cat(3,im...))
+    #im = reinterpret(Normed{UInt16,16},cat(3,im...))
+    im = reinterpret(N4f12,cat(3,im...))  ## Output from Prairie is 12 bits, in a 16 bits file.
     #protocolType = prairieImport["sequences"][seqN]["attributes"]["type"]
 
     xStep = seqParams["micronsPerPixel_XAxis"]
