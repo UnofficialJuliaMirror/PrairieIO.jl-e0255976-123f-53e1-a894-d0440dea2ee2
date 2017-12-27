@@ -14,7 +14,7 @@ function importPrairie(xmlFile)
     seqParameters = [dictSequenceParameters(runE) for runE=runElements]
 
     ### Getting frame related information
-    frames= Array(Dict,length(seqParameters))
+    frames= Array{Dict}(length(seqParameters))
     for i in 1:length(seqParameters)
         frame = get_elements_by_tagname(runElements[i],"Frame")
         files = [get_elements_by_tagname(fr,"File") for fr=frame]
