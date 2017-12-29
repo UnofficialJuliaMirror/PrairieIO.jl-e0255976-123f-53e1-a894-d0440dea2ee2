@@ -134,7 +134,7 @@ function getDAC(seqItem,version,baseDir)
             #dacList <- xmlToList(dac)
         #    dacList <- dacList[-which(grepl("text",names(dacList)) | grepl("PlotColor",names(dacList)))]
                 pulseTrain = get_elements_by_tagname(dac,"WaveformComponent_PulseTrain")
-                stimDict = Dict{ASCIIString,Any}()
+                stimDict = Dict{String,Any}()
                 for e in child_elements(pulseTrain[1])
                     val = parse(replace(content(e)," ",""))
                     if typeof(val) == Symbol
@@ -143,7 +143,7 @@ function getDAC(seqItem,version,baseDir)
                     stimDict[name(e)] = val
                 end
 
-                dacDict = Dict{ASCIIString,Any}()
+                dacDict = Dict{String,Any}()
                 for d in child_elements(dac)
                     if "PlotColor" != name(d) != "WaveformComponent_PulseTrain"
                         val = parse(replace(content(d)," ",""))
