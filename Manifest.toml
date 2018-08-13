@@ -131,6 +131,12 @@ git-tree-sha1 = "31cbf24d537a217475b37274df05de09882b53f1"
 uuid = "53c48c17-4a7d-5ca2-90c5-79b7896eea93"
 version = "0.5.2"
 
+[[FluorescentSeries]]
+deps = ["AxisArrays", "ImageAxes"]
+path = "/localhome/romain/.julia/dev/FluorescentSeries"
+uuid = "68ab7a74-b89c-58c4-90e0-a4e17bbb69bc"
+version = "0.0.1+"
+
 [[Graphics]]
 deps = ["Colors", "Compat", "NaNMath"]
 git-tree-sha1 = "4671f2427ea4494a5d14fd485c4aa61ec1fb7cd2"
