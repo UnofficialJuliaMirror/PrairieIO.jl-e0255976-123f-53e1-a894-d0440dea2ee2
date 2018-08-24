@@ -10,3 +10,9 @@ Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
 LightXML = "9c8b4983-aa76-5018-a973-4c85ecc9e179"
 SimpleTraits = "699a6c99-e7fa-54fc-8d76-47d257e15c1d"
 Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
