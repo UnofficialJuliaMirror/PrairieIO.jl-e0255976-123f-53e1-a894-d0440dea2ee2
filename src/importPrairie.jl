@@ -19,7 +19,7 @@ function importPrairie(xmlFile)
         frame = get_elements_by_tagname(runElements[i],"Frame")
         files = [get_elements_by_tagname(fr,"File") for fr=frame]
         files = [[attributes_dict(f) for f=fi] for fi=files]
-        timing = [parse(attribute(fr,"absoluteTime")) for fr=frame]
+        timing = [Meta.parse(attribute(fr,"absoluteTime")) for fr=frame]
         frames[i] = Dict("timing" => timing,"File" => files)
     end
     
@@ -44,7 +44,7 @@ end
         
     ### Global PVStateShard configuration of the experiment
     function parseSerieParameters(xmlPrairieDoc,version,dictOut=true)
-        version = parse(version[1:3])
+        version = Meta.parse(version[1:3])
           ### In Prairie 4, parameters are given for each frame, so we take the very first frame parameters for the  global ones (and just ignore if there's anything frame specific, like in ZSeries)
         if 4 <= version < 5
             params = find_element(find_element(find_element(xmlPrairieDoc,"Sequence"),"Frame"),"PVStateShard")
@@ -77,7 +77,7 @@ function pvParameters2dict(prairieConfNode)
     else
     keyElement = get_elements_by_tagname(prairieConfNode,"Key")
     ### false is written False in the xml file (hence the lowercase), everything else is numeric except the magnification that has an "x" written next to it (so we remove it to get the objective mag as a number).
-    params = Dict(attribute(keyElement[i],"key") => parse(replace(lowercase(attribute(keyElement[i],"value")),"x","")) for i=1:length(keyElement))
+    params = Dict(attribute(keyElement[i],"key") => Meta.parse(replace(lowercase(attribute(keyElement[i],"value")),"x","")) for i=1:length(keyElement))
     return params
     end    
 end
@@ -93,7 +93,7 @@ function getPrairieFrames(prairieImport;seqN=1,channel=2,frameN="All")
         frames = prairieImport["frames"][seqN]["File"][[frameN]]
     end
     
-    channels = [parse(fr["channel"]) for fr=frames[1]]    
+    channels = [Meta.parse(fr["channel"]) for fr=frames[1]]    
     whichFile = findfirst(channels,channel)
     filenames = [joinpath(prairieImport["dataDir"],fX[whichFile]["filename"]) for fX=frames]
     seqParams = prairieImport["globalConfig"]
@@ -119,7 +119,7 @@ function getPrairieFrames(prairieImport;seqN=1,channel=2,frameN="All")
 end
 
 function getDAC(seqItem,version,baseDir)
-    version = parse(version[1:3])
+    version = Meta.parse(version[1:3])
     if version>=5
         if find_element(seqItem,"VoltageOutput")!=nothing
             vOut = get_elements_by_tagname(seqItem,"VoltageOutput")
@@ -127,7 +127,7 @@ function getDAC(seqItem,version,baseDir)
             voltOutPath = "$(baseDir)/$(voltOutPath)"
             voutXml = root(parse_file(voltOutPath))
             voutCh = get_elements_by_tagname(voutXml,"Waveform")
-            output = find(map((x) -> content(get_elements_by_tagname(x,"Enabled")[1])=="true",voutCh))
+            output = findall(map((x) -> content(get_elements_by_tagname(x,"Enabled")[1])=="true",voutCh))
            
             outList = map(voutCh[output]) do dac
           
@@ -136,7 +136,7 @@ function getDAC(seqItem,version,baseDir)
                 pulseTrain = get_elements_by_tagname(dac,"WaveformComponent_PulseTrain")
                 stimDict = Dict{String,Any}()
                 for e in child_elements(pulseTrain[1])
-                    val = parse(replace(content(e)," ",""))
+                    val = Meta.parse(replace(content(e)," ",""))
                     if typeof(val) == Symbol
                         val = string(val)
                     end
@@ -146,7 +146,7 @@ function getDAC(seqItem,version,baseDir)
                 dacDict = Dict{String,Any}()
                 for d in child_elements(dac)
                     if "PlotColor" != name(d) != "WaveformComponent_PulseTrain"
-                        val = parse(replace(content(d)," ",""))
+                        val = Meta.parse(replace(content(d)," ",""))
                         if typeof(val) == Symbol
                             val = string(val)
                         end
@@ -155,8 +155,8 @@ function getDAC(seqItem,version,baseDir)
                 end
             
                 dacDict["triggerMode"] = attribute(vOut[1],"triggerMode")
-                dacDict["relativeTime"] = parse(attribute(vOut[1],"relativeTime"))
-                dacDict["absoluteTime"] = parse(attribute(vOut[1],"absoluteTime"))
+                dacDict["relativeTime"] = Meta.parse(attribute(vOut[1],"relativeTime"))
+                dacDict["absoluteTime"] = Meta.parse(attribute(vOut[1],"absoluteTime"))
                 Dict("DACDeviceParameters"=>dacDict, "DACStimulusParameters"=>stimDict)
             end
         else

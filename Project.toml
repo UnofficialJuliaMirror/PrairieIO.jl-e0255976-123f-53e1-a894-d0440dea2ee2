@@ -1,0 +1,18 @@
+name = "PrairieIO"
+uuid = "e0255976-123f-53e1-a894-d0440dea2ee2"
+repo = "https://github.com/romainFr/PrairieIO.jl.git"
+
+[deps]
+Compat = "34da2185-b29b-5c13-b0c7-acf172513d20"
+FileIO = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
+FixedPointNumbers = "53c48c17-4a7d-5ca2-90c5-79b7896eea93"
+Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
+LightXML = "9c8b4983-aa76-5018-a973-4c85ecc9e179"
+SimpleTraits = "699a6c99-e7fa-54fc-8d76-47d257e15c1d"
+Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
